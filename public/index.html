@@ -1,0 +1,218 @@
+[15/10/2026 11:17 م] Mohammed Hayder | Entrepreneur ️: <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | Titanium Lab</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="app-container">
+    <!-- الشريط العلوي للمنظومة -->
+    <header>
+        <h1>Titanium Lab 🦷 نظام إدارة المختبر</h1>
+        <div class="user-info">
+            <span id="welcomeUser" style="margin-left: 15px; color: #b3b3b3;">مرحباً بك</span>
+            <button onclick="logout()">تسجيل الخروج</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- قسم العدادات والإحصائيات السريعة -->
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <h3>الحالات الجديدة</h3>
+                <div class="value" id="countNew">0</div>
+            </div>
+            <div class="stat-card warning">
+                <h3>قيد التنفيذ</h3>
+                <div class="value" id="countProgress">0</div>
+            </div>
+            <div class="stat-card success">
+                <h3>جاهزة للتسليم</h3>
+                <div class="value" id="countReady">0</div>
+            </div>
+            <div class="stat-card danger">
+                <h3>الحالات المتأخرة</h3>
+                <div class="value" id="countLate">0</div>
+            </div>
+            <div class="stat-card success" style="border-right-color: #28a745;">
+                <h3>إجمالي المقبوض (IQD)</h3>
+                <div class="value" id="totalIncome">0 د.ع</div>
+            </div>
+        </div>
+
+        <!-- أزرار التبويبات التنقلية -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('cases-tab')">إدارة الحالات</button>
+            <button class="tab-btn" onclick="switchTab('doctors-tab')">حسابات الأطباء</button>
+            <button class="tab-btn" onclick="switchTab('reports-tab')">التقارير المالية</button>
+        </div>
+
+        <!-- ==================== تبويب الحالات ==================== -->
+        <div id="cases-tab" class="tab-content active">
+            <div class="form-section">
+                <h2 style="color: var(--primary); margin-bottom: 15px;">إضافة حالة جديدة</h2>
+                <form id="addCaseForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>اسم الدكتور</label>
+                            <input type="text" id="docName" placeholder="مثال: د. علي أحمد" required>
+                        </div>
+                        <div class="form-group">
+                            <label>رقم هاتف الدكتور</label>
+                            <input type="text" id="docPhone" placeholder="07XXXXXXXXX">
+                        </div>
+                        <div class="form-group">
+                            <label>اسم المريض / رمز الحالة</label>
+                            <input type="text" id="patientName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>نوع العمل</label>
+                            <select id="workType">
+                                <option value="Zirconia">Zirconia</option>
+                                <option value="E.max">E.max</option>
+                                <option value="Feldspathic">Feldspathic</option>
+                                <option value="Implant">Implant</option>
+                                <option value="PFM">PFM</option>
+                                <option value="Night Guard">Night Guard</option>
+                                <option value="Retainer">Retainer</option>
+                                <option value="Splint">Splint</option>
+                                <option value="Permanent Resin">Permanent Resin</option>
+[15/10/2026 11:17 م] Mohammed Hayder | Entrepreneur ️: </select>
+                        </div>
+                        <div class="form-group">
+                            <label>عدد الوحدات</label>
+                            <input type="number" id="units" min="1" value="1" required oninput="calculateTotal()">
+                        </div>
+                        <div class="form-group">
+                            <label>طريقة التسعير</label>
+                            <select id="pricingType" onchange="calculateTotal()">
+                                <option value="unit">سعر للوحدة الواحدة</option>
+                                <option value="full">سعر كامل للحالة</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>السعر (بالدينار العراقي)</label>
+                            <input type="number" id="priceInput" value="0" required oninput="calculateTotal()">
+                        </div>
+                        <div class="form-group">
+                            <label>السعر الإجمالي المحسوب</label>
+                            <input type="text" id="totalPrice" readonly value="0" style="color: var(--primary); font-weight: bold;">
+                        </div>
+                        <div class="form-group">
+                            <label>تاريخ الاستلام</label>
+                            <input type="date" id="receivedDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>موعد التسليم المتفق عليه</label>
+                            <input type="date" id="deliveryDate" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">حفظ الحالة في النظام</button>
+                </form>
+            </div>
+
+            <!-- جدول عرض الحالات والبحث -->
+            <div class="form-section" style="margin-top: 20px;">
+                <input type="text" id="searchBar" placeholder="🔍 ابحث باسم الدكتور، رقم الحالة، أو نوع العمل..." style="width: 100%; padding: 12px; margin-bottom: 15px;" oninput="filterCases()">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>رقم الحالة</th>
+                                <th>الدكتور</th>
+                                <th>المريض</th>
+                                <th>نوع العمل</th>
+                                <th>الوحدات</th>
+                                <th>الإجمالي (د.ع)</th>
+                                <th>تاريخ الاستلام</th>
+                                <th>موعد التسليم</th>
+                                <th>حالة العمل</th>
+                                <th>التأخير</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="casesTableBody">
+                            <!-- يتم ملؤها برمجياً عبر ملف الجافاسكريبت -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== تبويب الأطباء ==================== -->
+        <div id="doctors-tab" class="tab-content">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>اسم الدكتور</th>
+                            <th>رقم الهاتف</th>
+                            <th>إجمالي الحالات</th>
+                            <th>المدفوع الكلي</th>
+                            <th>المتبقي بذمته</th>
+                        </tr>
+                    </thead>
+                    <tbody id="doctorsTableBody">
+                        <!-- يتم ملؤها برمجياً -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+[15/10/2026 11:17 م] Mohammed Hayder | Entrepreneur ️: <!-- ==================== تبويب التقارير ==================== -->
+        <div id="reports-tab" class="tab-content">
+            <div class="form-section">
+                <h3>ملخص الحسابات والمبيعات</h3>
+                <p style="margin-top: 10px; color: var(--text-muted);">سيتم تجميع التقارير اليومية والشهرية تلقائياً من واقع البيانات الحية في قاعدة PostgreSQL.</p>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    // التحقق من الجلسة والأمان عند فتح الصفحة
+    async function checkAuth() {
+        const res = await fetch('/api/auth/status');
+        const data = await res.json();
+        if (!data.loggedIn) {
+            window.location.href = '/login.html';
+        } else {
+            document.getElementById('welcomeUser').innerText = المستخدم: ${data.username};
+        }
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    function calculateTotal() {
+        const units = parseInt(document.getElementById('units').value) || 0;
+        const pricingType = document.getElementById('pricingType').value;
+        const price = parseFloat(document.getElementById('priceInput').value) || 0;
+        let total = 0;
+
+        if (pricingType === 'unit') {
+            total = units * price;
+        } else {
+            total = price;
+        }
+        document.getElementById('totalPrice').value = total.toLocaleString('ar-IQ') + " دينار عراقي";
+    }
+
+    async function logout() {
+        const res = await fetch('/api/auth/logout', { method: 'POST' });
+        if (res.ok) window.location.href = '/login.html';
+    }
+
+    // إعداد التواريخ الافتراضية لسهولة الإدخال
+    document.getElementById('receivedDate').valueAsDate = new Date();
+
+    checkAuth();
+</script>
+</body>
+</html>

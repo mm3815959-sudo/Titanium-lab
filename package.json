@@ -1,0 +1,16 @@
+{
+  "name": "titanium-lab",
+  "version": "1.0.0",
+  "description": "نظام إدارة مختبر الأسنان تيتانيوم لاب",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.11.5",
+    "bcryptjs": "^2.4.3",
+    "express-session": "^1.18.0",
+    "dotenv": "^16.4.5"
+  }
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول | Titanium Lab</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* تصميم مخصص وسريع لصفحة تسجيل الدخول باللون الأسود والبرتقالي */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            border-top: 4px solid #ff6600;
+            text-align: center;
+        }
+        h2 {
+            color: #ff6600;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #b3b3b3;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #333333;
+            background-color: #2a2a2a;
+            color: white;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            border-color: #ff6600;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #e65c00;
+        }
+        .error-msg {
+            color: #ff3333;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Titanium Lab 🦷</h2>
+    <p style="color: #888; margin-bottom: 20px;">نظام إدارة مختبر الأسنان الآمن</p>
+
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="username">اسم المستخدم</label>
+            <input type="text" id="username" required placeholder="أدخل اسم المستخدم">
+        </div>
+        <div class="form-group">
+            <label for="password">كلمة المرور</label>
+            <input type="password" id="password" required placeholder="أدخل كلمة المرور">
+        </div>
+        <button type="submit">تسجيل الدخول</button>
+        <div id="errorMsg" class="error-msg"></div>
+    </form>
+</div>
+
+<script>
+    // ربط الواجهة الأمامية بالـ API لتسجيل الدخول الآمن
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const errorMsg = document.getElementById('errorMsg');
+
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                // إذا تم تسجيل الدخول بنجاح، انتقل إلى لوحة التحكم الرئيسية
+                window.location.href = '/index.html';
+            } else {
+                errorMsg.innerText = data.error || 'خطأ في تسجيل الدخول';
+                errorMsg.style.display = 'block';
+            }
+        } catch (err) {
+            errorMsg.innerText = 'حدث خطأ في الاتصال بالخادم';
+            errorMsg.style.display = 'block';
+        }
+    });
+</script>
+</body>
+</html>

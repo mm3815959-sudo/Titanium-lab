@@ -1,0 +1,255 @@
+[15/10/2026 11:36 م] Mohammed Hayder | Entrepreneur ️: /* الألوان الأساسية للنظام (أسود وبرتقالي عصري) */
+:root {
+    --bg-dark: #121212;
+    --bg-panel: #1e1e1e;
+    --bg-input: #2a2a2a;
+    --primary: #ff6600;
+    --primary-hover: #e65c00;
+    --text-main: #ffffff;
+    --text-muted: #b3b3b3;
+    --border-color: #333333;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    direction: rtl;
+    text-align: right;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: var(--bg-panel);
+    border-bottom: 2px solid var(--primary);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    color: var(--primary);
+    font-size: 24px;
+}
+
+.user-info button {
+    background-color: transparent;
+    color: var(--danger);
+    border: 1px solid var(--danger);
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.user-info button:hover {
+    background-color: var(--danger);
+    color: white;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background-color: var(--bg-panel);
+    padding: 20px;
+    border-radius: 8px;
+    border-right: 4px solid var(--primary);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.stat-card h3 {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.stat-card .value {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-main);
+}
+
+.stat-card.danger { border-right-color: var(--danger); }
+.stat-card.warning { border-right-color: var(--warning); }
+.stat-card.success { border-right-color: var(--success); }
+
+.nav-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    overflow-x: auto;
+}
+
+.tab-btn {
+    background-color: var(--bg-panel);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+
+.tab-btn.active, .tab-btn:hover {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.form-section {
+    background-color: var(--bg-panel);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+label {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+input, select, textarea {
+    background-color: var(--bg-input);
+    color: white;
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+.btn-submit {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: var(--primary-hover);
+}
+
+.table-container {
+    background-color: var(--bg-panel);
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: right;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: #1a1a1a;
+    color: var(--primary);
+    font-weight: bold;
+}
+[15/10/2026 11:36 م] Mohammed Hayder | Entrepreneur ️: tr:hover {
+    background-color: rgba(255, 102, 0, 0.05);
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-new { background-color: #007bff; color: white; }
+.status-progress { background-color: var(--warning); color: #121212; }
+.status-ready { background-color: #17a2b8; color: white; }
+.status-delivered { background-color: var(--success); color: white; }
+.status-cancelled { background-color: #6c757d; color: white; }
+
+.delay-critical { background-color: rgba(220, 53, 69, 0.2); color: #ff4d4d; border: 1px solid var(--danger); }
+.delay-warning { background-color: rgba(255, 193, 7, 0.2); color: #ffcc00; border: 1px solid var(--warning); }
+
+.action-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    margin-left: 5px;
+}
+.btn-edit { background-color: #28a745; color: white; }
+.btn-pay { background-color: #ff6600; color: white; }
+
+@media print {
+    body { background: white; color: black; }
+    header, .nav-tabs, .form-section, .action-btn { display: none !important; }
+    .table-container, table { width: 100%; min-width: 100% !important; }
+    th { background: #eee !important; color: black !important; }
+    td, th { border: 1px solid #ccc !important; }
+}
